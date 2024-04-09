@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>画像の表示とコピー防止</title>
+  <style>
+    /* 前のCSSコードは省略 */
+  </style>
+</head>
+<body>
+
+  <img src="a" alt="表示する画像">
+
+  <script>
+    // 前のJavaScriptコードは省略
+
+    // スクリーンショットの検知と防止の試み
+    document.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'visible') {
+        // 別のタブやウィンドウに切り替えられた場合の処理
+        alert('画像のコピーは許可されていません。');
+      }
+    });
+
+    // 画面録画の検知と防止の試み 
+    (function() {
+      let lastTime = Date.now();
+      let isMouseDown = false;
+
+      document.addEventListener('mousedown', function() {
+        isMouseDown = true;
+      });
+
+      document.addEventListener('mouseup', function() {
+        isMouseDown = false;
+      });
+
+      document.addEventListener('mousemove', function() {
+        if (isMouseDown) {
+          const currentTime = Date.now();
+          if (currentTime - lastTime > 100) {
+            alert('画面録画が検出されました。作業を中止してください。');
+            lastTime = currentTime;
+          }
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
